@@ -1,0 +1,5 @@
+# Versão de revisão. Troque este arquivo antes de publicar.
+# O conteúdo definitivo está descrito no README.
+
+User-agent: *
+Disallow: /
