@@ -129,31 +129,58 @@
       </section>
 
       <section id="sobre" class="section">
-        <div class="container split">
+        <div class="container about-layout">
           <div class="about-copy">
-            <p class="eyebrow">Sobre</p>
-            <h2>Conheça Rico Teixeira</h2>
-            <p class="prep-flag">Apresentação em preparação</p>
+            <h2>Sobre Rico Teixeira</h2>
+            <p class="about-subtitle">Mais de 16 anos de experiência em adestramento</p>
             <div class="about-block" data-about="biography">
               <h3>Biografia</h3>
-              <p class="prep-copy">Este texto será publicado após a revisão do material enviado por Rico.</p>
+              <p>Rico Teixeira trabalha com adestramento de cães há mais de 16 anos. Em 2022, conquistou o título de campeão brasileiro por equipe no adestramento esportivo com a equipe Voraus CBPA. Hoje, atende famílias em Curitiba que buscam uma convivência mais tranquila com seus cães.</p>
             </div>
             <div class="about-block" data-about="approach">
               <h3>Abordagem de trabalho</h3>
-              <p class="prep-copy">Este texto será publicado após a revisão do material enviado por Rico.</p>
+              <p>Tudo começa com uma consultoria comportamental. Rico observa o cão e conversa com os tutores para entender a rotina da casa. A partir dessa avaliação, orienta a família sobre o que pode mudar no dia a dia e como todos podem participar do treinamento. O acompanhamento acontece na residência, onde os tutores podem praticar as orientações nas situações do cotidiano.</p>
             </div>
           </div>
 
-          <figure class="media-frame media-frame--portrait" data-media="about">
-            <div
-              class="placeholder"
-              role="img"
-              aria-label="Fotografia em revisão. Espaço reservado para uma foto real de Rico Teixeira."
+          <figure class="about-collage">
+            <img
+              class="about-collage-main"
+              src="assets/images/rico%204.jpg"
+              alt="Rico Teixeira sorri segurando um filhote deitado no colo."
+              width="960"
+              height="712"
+              decoding="async"
             >
-              <span class="placeholder-kicker">Fotografia em revisão</span>
-              <strong class="placeholder-label">Rico Teixeira</strong>
+            <div class="about-collage-row">
+              <img
+                class="about-shot about-shot-1"
+                src="assets/images/rico%201.jpg"
+                alt="Rico Teixeira agacha para cumprimentar uma golden retriever na calçada."
+                width="960"
+                height="1271"
+                decoding="async"
+                loading="lazy"
+              >
+              <img
+                class="about-shot about-shot-2"
+                src="assets/images/rico%202.jpg"
+                alt="Rico Teixeira ao lado de um spitz, com o focinho do cão junto ao rosto."
+                width="300"
+                height="300"
+                decoding="async"
+                loading="lazy"
+              >
+              <img
+                class="about-shot about-shot-3"
+                src="assets/images/rico%203.jpg"
+                alt="Rico Teixeira em pé ao lado de um pastor-alemão, com troféus à frente."
+                width="960"
+                height="960"
+                decoding="async"
+                loading="lazy"
+              >
             </div>
-            <figcaption>Espaço reservado para fotografia real.</figcaption>
           </figure>
         </div>
       </section>
@@ -173,7 +200,6 @@
       <section id="como-funciona" class="section">
         <div class="container">
           <header class="section-intro">
-            <p class="eyebrow">Como funciona</p>
             <h2>Como funciona</h2>
             <p>O trabalho começa com uma avaliação comportamental, para conhecer o cão e entender a rotina da família.</p>
           </header>
@@ -194,13 +220,31 @@
         </div>
       </section>
 
+      <section class="park-banner" aria-labelledby="park-banner-title">
+        <div class="park-banner-media">
+          <img src="assets/images/banner-parque-barigui.webp" alt="Mulher passeando com um cão de guia frouxa no Parque Barigui, em Curitiba." width="1983" height="793" decoding="async" loading="lazy">
+        </div>
+        <div class="container park-banner-copy">
+          <h2 id="park-banner-title">Passeios mais tranquilos começam com uma guia frouxa.</h2>
+          <button
+            type="button"
+            class="btn btn-whatsapp"
+            data-whatsapp
+            data-whatsapp-source="banner"
+            disabled
+          >
+            <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+            Conversar com Rico
+          </button>
+        </div>
+      </section>
+
       <section id="depoimentos" class="section">
         <div class="container">
           <header class="section-intro">
-            <p class="eyebrow">Depoimentos</p>
             <h2>Depoimentos</h2>
           </header>
-          <div id="testimonials-list" class="quotes">
+          <div id="testimonials-list" class="testimonials-stage">
             <p class="short-fallback">
               <a class="short-watch" href="https://www.youtube.com/shorts/Rx9Nye8tpA4" target="_blank" rel="noopener noreferrer">Assistir no YouTube<span class="sr-only"> (abre em uma nova aba)</span></a>
             </p>
@@ -209,13 +253,14 @@
       </section>
 
       <section id="perguntas" class="section section-muted">
-        <div class="container">
-          <header class="section-intro">
-            <p class="eyebrow">Dúvidas</p>
-            <h2>Perguntas Frequentes</h2>
-            <p>Tudo o que você precisa saber antes de começar o adestramento do seu melhor amigo.</p>
-          </header>
-          <div class="faq-list">
+        <div class="container faq-layout">
+          <p class="eyebrow faq-eyebrow">Dúvidas</p>
+          <div class="faq-copy">
+            <header class="section-intro">
+              <h2>Perguntas Frequentes</h2>
+              <p>Tudo o que você precisa saber antes de começar o adestramento do seu melhor amigo.</p>
+            </header>
+            <div class="faq-list">
             <article class="faq-item">
               <h3>
                 <button type="button" class="faq-trigger" id="faq-tempo-btn" aria-expanded="false" aria-controls="faq-tempo">
@@ -295,6 +340,10 @@
               Conversar com Rico
             </button>
           </div>
+          </div>
+          <figure class="faq-photo">
+            <img src="assets/images/rico-treino-ar-livre.webp" alt="Rico Teixeira caminha ao lado de um cão pastor durante um treino ao ar livre." width="1254" height="1254" decoding="async" loading="lazy">
+          </figure>
         </div>
       </section>
 
@@ -303,7 +352,6 @@
           <div class="contact-copy">
             <p class="eyebrow eyebrow-light">Contato</p>
             <h2>Vamos conversar sobre o seu cão?</h2>
-            <p id="contact-intro" class="contact-lead">Conte o que você gostaria de melhorar na convivência com seu cão. Fale com Rico pelo WhatsApp.</p>
             <div class="actions">
               <button
                 type="button"
@@ -321,21 +369,7 @@
                 <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11zm1.8.3 6.2 4.3 6.2-4.3a1 1 0 0 0-1-.3h-10.4a1 1 0 0 0-1 .3zM18.5 8.2l-6.1 4.2a.7.7 0 0 1-.8 0L5.5 8.2V17.5c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V8.2z"/></svg>
                 <div class="contact-fact-body">
                   <p class="contact-label">E-mail</p>
-                  <p class="contact-value"><a href="mailto:contato@ricoteixeiraadestramento.com.br">contato@ricoteixeiraadestramento.com.br</a></p>
-                </div>
-              </div>
-              <div class="contact-fact">
-                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.5.6 3.6.1.4 0 .7-.3 1L6.6 10.8z"/></svg>
-                <div class="contact-fact-body">
-                  <p class="contact-label">Telefone</p>
-                  <p class="contact-value whatsapp-inline-note" id="whatsapp-number">Desativado até configurar o WhatsApp comercial.</p>
-                </div>
-              </div>
-              <div class="contact-fact">
-                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 7.2 12 4l8 3.2V17l-8 3.2L4 17V7.2zm8 1.1L7 10.2v5.1l5 2 5-2v-5.1L12 8.3z"/></svg>
-                <div class="contact-fact-body">
-                  <p class="contact-label">Região de atendimento</p>
-                  <p id="region-note" class="contact-value">Região de atendimento em confirmação.</p>
+                  <p class="contact-value"><a class="contact-email" id="contact-email" href="mailto:contato@ricoteixeiraadestramento.com.br">contato@ricoteixeiraadestramento.com.br</a></p>
                 </div>
               </div>
               <div class="contact-fact" id="address-fact" hidden>
@@ -349,89 +383,100 @@
                 </div>
               </div>
             </div>
-            <p id="social-note" class="contact-value">Redes sociais em confirmação.</p>
-            <ul id="social-list" class="social-list" hidden></ul>
           </div>
-          <div id="map-frame" class="map-frame" hidden></div>
-          <form id="consulta-form" class="consulta-form" action="#contato" method="post" novalidate>
-            <h2>Envie sua consulta</h2>
-            <p class="consulta-lead">Conte o que você gostaria de melhorar na convivência com seu cão.</p>
-            <p id="consulta-pending" class="consulta-pending">O envio por formulário estará disponível em breve. Por enquanto, fale com o Rico pelo WhatsApp.</p>
-            <p class="hp-field">
-              <label for="consulta-empresa">Empresa</label>
-              <input id="consulta-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
-            </p>
-            <div class="field">
-              <label for="consulta-nome">Nome</label>
-              <input id="consulta-nome" name="nome" type="text" autocomplete="name" maxlength="80" required>
-              <p id="consulta-nome-erro" class="field-error" hidden></p>
+          <div class="contact-panel">
+            <form id="consulta-form" class="consulta-form" action="#contato" method="post" novalidate>
+              <h2>Envie sua consulta</h2>
+              <p class="consulta-lead">Conte o que você gostaria de melhorar na convivência com seu cão.</p>
+              <p class="hp-field">
+                <label for="consulta-empresa">Empresa</label>
+                <input id="consulta-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+              </p>
+              <div class="consulta-fields">
+                <div class="field">
+                  <label for="consulta-nome">Nome</label>
+                  <input id="consulta-nome" name="nome" type="text" autocomplete="name" maxlength="80" required>
+                  <p id="consulta-nome-erro" class="field-error" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="consulta-email">E-mail</label>
+                  <input id="consulta-email" name="email" type="email" autocomplete="email" maxlength="120" required>
+                  <p id="consulta-email-erro" class="field-error" hidden></p>
+                </div>
+                <div class="field field-span">
+                  <label for="consulta-telefone">Telefone</label>
+                  <input id="consulta-telefone" name="telefone" type="tel" autocomplete="tel" inputmode="numeric" maxlength="20" placeholder="(41) 99999-9999" required aria-describedby="consulta-telefone-dica" data-hint="consulta-telefone-dica">
+                  <p id="consulta-telefone-dica" class="field-hint">Celular ou fixo de Curitiba, com DDD 41.</p>
+                  <p id="consulta-telefone-erro" class="field-error" hidden></p>
+                </div>
+                <div class="field field-span">
+                  <label for="consulta-mensagem">Mensagem</label>
+                  <textarea id="consulta-mensagem" name="mensagem" rows="3" maxlength="2000" required></textarea>
+                  <p id="consulta-mensagem-erro" class="field-error" hidden></p>
+                </div>
+              </div>
+              <button type="submit" class="btn-consulta" disabled>Enviar consulta</button>
+              <p id="consulta-pending" class="consulta-pending">O envio só é confirmado quando o destino do formulário estiver configurado.</p>
+              <p id="consulta-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+            <div id="contact-fallback" class="contact-fallback" hidden>
+              <h2>Fale com Rico pelo WhatsApp</h2>
+              <p>A conversa sobre o seu cão começa por aqui.</p>
+              <button
+                type="button"
+                class="btn btn-whatsapp"
+                data-whatsapp
+                data-whatsapp-source="contato-cartao"
+                disabled
+              >
+                <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+                Conversar com Rico
+              </button>
             </div>
-            <div class="field">
-              <label for="consulta-email">E-mail</label>
-              <input id="consulta-email" name="email" type="email" autocomplete="email" maxlength="120" required>
-              <p id="consulta-email-erro" class="field-error" hidden></p>
-            </div>
-            <div class="field">
-              <label for="consulta-telefone">Telefone <span class="field-optional">(opcional)</span></label>
-              <input id="consulta-telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20">
-              <p id="consulta-telefone-erro" class="field-error" hidden></p>
-            </div>
-            <div class="field">
-              <label for="consulta-mensagem">Mensagem</label>
-              <textarea id="consulta-mensagem" name="mensagem" rows="5" maxlength="2000" required></textarea>
-              <p id="consulta-mensagem-erro" class="field-error" hidden></p>
-            </div>
-            <button type="submit" class="btn-consulta" disabled>Enviar consulta</button>
-            <p id="consulta-status" class="form-status" role="status" aria-live="polite"></p>
-          </form>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
+        <section class="footer-social-band" aria-labelledby="footer-social-title">
+          <h2 id="footer-social-title" class="footer-heading">Redes sociais</h2>
+          <ul id="footer-social" class="footer-social" hidden></ul>
+        </section>
         <div class="footer-columns">
-          <section class="footer-col" aria-labelledby="footer-brand-title">
-            <a class="brand footer-brand-link" href="#inicio">
-              <span class="brand-mark">
-                <img src="assets/images/logo-rico-texeira.webp" alt="" width="224" height="224" decoding="async">
-              </span>
-              <span class="brand-text">
-                <span class="brand-name" id="footer-brand-title">Chama o Tio Rico</span>
-              </span>
+          <section class="footer-col footer-brand" aria-label="Rico Teixeira Adestramento">
+            <a class="footer-brand-link" href="#inicio">
+              <img class="footer-logo" src="assets/images/logo-rico-texeira.webp" alt="Chama o Tio Rico, ele resolve." width="224" height="224" decoding="async">
+              <span class="footer-brand-name">Rico Teixeira Adestramento</span>
             </a>
             <p class="footer-summary">Rico Teixeira acompanha famílias em Curitiba que querem uma convivência mais tranquila com o cão.</p>
-            <ul id="footer-social" class="footer-social" hidden></ul>
           </section>
-          <nav class="footer-col footer-nav" aria-label="Links rápidos">
-            <h2 class="footer-heading">Links rápidos</h2>
-            <a href="#inicio">Início</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#servicos">Serviços</a>
-            <a href="#como-funciona">Como funciona</a>
-            <a href="#depoimentos">Depoimentos</a>
-            <a href="#perguntas">Perguntas</a>
-            <a href="#contato">Contato</a>
+          <nav class="footer-col footer-nav" aria-label="Nesta página">
+            <h2 class="footer-heading">Nesta página</h2>
+            <div class="footer-links">
+              <a href="#sobre">Sobre</a>
+              <a href="#servicos">Serviços</a>
+              <a href="#depoimentos" data-footer="testimonials">Depoimentos</a>
+              <a href="#contato">Contato</a>
+            </div>
           </nav>
-          <section class="footer-col footer-contact" aria-labelledby="footer-atendimento">
-            <h2 class="footer-heading" id="footer-atendimento">Atendimento</h2>
+          <section class="footer-col footer-contact" aria-labelledby="footer-contact-title">
+            <h2 id="footer-contact-title" class="footer-heading">Contato</h2>
             <p id="footer-phone" class="footer-contact-item">
               <span class="footer-kicker">WhatsApp</span>
               <a href="https://wa.me/5541999017892?text=Ol%C3%A1%2C%20Rico!%20Gostaria%20de%20conversar%20sobre%20as%20necessidades%20do%20meu%20c%C3%A3o%20e%20da%20minha%20fam%C3%ADlia." target="_blank" rel="noopener noreferrer">+55 41 99901-7892<span class="sr-only"> (abre em uma nova aba)</span></a>
             </p>
             <p id="footer-email" class="footer-contact-item">
               <span class="footer-kicker">E-mail</span>
-              <a href="mailto:contato@ricoteixeiraadestramento.com.br">contato@ricoteixeiraadestramento.com.br</a>
+              <a id="footer-email-link" href="mailto:contato@ricoteixeiraadestramento.com.br">contato@<wbr>ricoteixeiraadestramento<wbr>.com.br</a>
             </p>
-            <p id="footer-region" class="footer-contact-item" hidden></p>
+            <p id="footer-region" class="footer-place">Curitiba–PR</p>
           </section>
         </div>
         <div class="footer-bottom">
-          <div class="footer-meta">
-            <p class="footer-copy">© <span id="year">2026</span> Rico Teixeira Adestramento. Todos os direitos reservados.</p>
-            <p class="credit">Desenvolvido por <a class="credit-link" href="https://vamelun.com" target="_blank" rel="noopener noreferrer"><span class="credit-logo"><img src="assets/images/vamelun.png" alt="Vamelun" width="320" height="320" decoding="async" loading="lazy"></span><span class="sr-only"> (abre em uma nova aba)</span></a></p>
-          </div>
-          <button type="button" class="footer-cookies" id="cookie-preferences" aria-controls="cookie-panel" aria-expanded="false">Preferências de cookies</button>
+          <p class="footer-copy">© <span id="year">2026</span> Rico Teixeira Adestramento. Todos os direitos reservados.</p>
+          <p class="credit">Desenvolvido por <a class="credit-link" href="https://vamelun.com" target="_blank" rel="noopener noreferrer"><span class="credit-logo"><img src="assets/images/vamelun.png" alt="Vamelun" width="320" height="320" decoding="async" loading="lazy"></span><span class="sr-only"> (abre em uma nova aba)</span></a></p>
         </div>
       </div>
     </footer>
@@ -440,5 +485,12 @@
     <script src="assets/js/content.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/cookies.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      new window.VLibras.Widget({
+        rootPath: "https://vlibras.gov.br/app",
+        position: "L"
+      });
+    </script>
   </body>
 </html>

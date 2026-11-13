@@ -113,10 +113,6 @@
     return svg;
   }
 
-  function boxesOverlap(a, b, gap) {
-    return a.left < b.right + gap && a.right > b.left - gap && a.top < b.bottom + gap && a.bottom > b.top - gap;
-  }
-
   function bindWhatsAppLink(anchor, source) {
     anchor.addEventListener("click", function () {
       trackWhatsAppClick(source);
@@ -137,26 +133,118 @@
     document.body.appendChild(link);
     document.body.classList.add("has-whatsapp-float");
 
-    var contact = document.getElementById("contato");
+    var currentLift = 0;
+
+    function cookieDialogOpen() {
+      var panel = document.getElementById("cookie-panel");
+      if (!panel || panel.hidden) return false;
+      var style = window.getComputedStyle(panel);
+      return style.display !== "none" && style.visibility !== "hidden";
+    }
+
+    function controlVisible(node) {
+      if (!node || node.hidden || node === link) return false;
+      var style = window.getComputedStyle(node);
+      return style.display !== "none" && style.visibility !== "hidden";
+    }
+
+    function overlaps(a, b, gap) {
+      return a.left < b.right + gap && a.right > b.left - gap && a.top < b.bottom + gap && a.bottom > b.top - gap;
+    }
+
+    function pushClearance(rects, rect) {
+      if (!rect || rect.width < 8 || rect.height < 8) return;
+      rects.push(rect);
+    }
+
+    function clearance(baseRect) {
+      var rects = [];
+      Array.prototype.forEach.call(document.querySelectorAll(".short-frame"), function (frame) {
+        if (!controlVisible(frame)) return;
+        var bounds = frame.getBoundingClientRect();
+        pushClearance(rects, {
+          left: bounds.left,
+          right: bounds.right,
+          top: bounds.top,
+          bottom: Math.min(bounds.bottom, bounds.top + 52),
+          width: bounds.width,
+          height: Math.min(52, bounds.height),
+        });
+        pushClearance(rects, {
+          left: bounds.left,
+          right: bounds.right,
+          top: Math.max(bounds.top, bounds.bottom - 76),
+          bottom: bounds.bottom,
+          width: bounds.width,
+          height: Math.min(76, bounds.height),
+        });
+      });
+
+      var controls = document.querySelectorAll([
+        ".short-play",
+        ".short-watch",
+        ".faq-trigger",
+        ".faq-cta .btn",
+        ".faq-cta a",
+        "a.btn-whatsapp",
+        "#consulta-form input",
+        "#consulta-form textarea",
+        "#consulta-form .btn-consulta",
+        ".contact-fallback .btn",
+        ".contact-fallback a",
+        ".footer-nav a",
+        ".footer-contact a",
+        ".footer-social a",
+        "#cookie-preferences",
+        ".credit-link",
+      ].join(","));
+      Array.prototype.forEach.call(controls, function (control) {
+        if (!controlVisible(control)) return;
+        if (control.closest && control.closest(".hp-field")) return;
+        pushClearance(rects, control.getBoundingClientRect());
+      });
+
+      var limit = Math.max(0, window.innerHeight - baseRect.height - 96);
+      var lift = 0;
+      var pass = 0;
+      for (pass = 0; pass < 8; pass += 1) {
+        var moved = {
+          left: baseRect.left,
+          right: baseRect.right,
+          top: baseRect.top - lift,
+          bottom: baseRect.bottom - lift,
+        };
+        var next = lift;
+        rects.forEach(function (rect) {
+          if (!overlaps(moved, rect, 10)) return;
+          var needed = baseRect.bottom - rect.top + 12;
+          if (needed > limit) needed = limit;
+          if (needed > next) next = needed;
+        });
+        if (next === lift) break;
+        lift = next;
+      }
+      return Math.ceil(lift);
+    }
+
+    function setLift(next) {
+      if (next === currentLift) return;
+      currentLift = next;
+      link.style.setProperty("--float-lift", next + "px");
+    }
 
     function syncFloat() {
-      var height = window.innerHeight || document.documentElement.clientHeight;
-      var blocked = false;
-      if (contact) {
-        var contactRect = contact.getBoundingClientRect();
-        blocked = contactRect.bottom > 72 && contactRect.top < height - 24;
-      }
-      if (!blocked) {
-        var floatRect = link.getBoundingClientRect();
-        var obstacles = document.querySelectorAll(".quote-video video, .short-frame, #cookie-panel, #cookie-preferences, .faq-trigger");
-        Array.prototype.forEach.call(obstacles, function (obstacle) {
-          if (blocked || obstacle.hidden) return;
-          var style = window.getComputedStyle(obstacle);
-          if (style.display === "none" || style.visibility === "hidden") return;
-          if (boxesOverlap(floatRect, obstacle.getBoundingClientRect(), 12)) blocked = true;
-        });
-      }
-      link.classList.toggle("is-resting", blocked);
+      var placed = link.getBoundingClientRect();
+      var baseRect = {
+        left: placed.left,
+        right: placed.right,
+        top: placed.top + currentLift,
+        bottom: placed.bottom + currentLift,
+        width: placed.width,
+        height: placed.height,
+      };
+      setLift(clearance(baseRect));
+      link.classList.toggle("is-resting", cookieDialogOpen());
     }
 
     syncFloat();
@@ -166,12 +254,11 @@
     document.addEventListener("keydown", syncFloat);
     if (typeof MutationObserver === "function") {
       var floatObserver = new MutationObserver(syncFloat);
-      floatObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["hidden", "class", "style"],
-      });
+      var panel = document.getElementById("cookie-panel");
+      if (panel) {
+        floatObserver.observe(panel, { attributes: true, attributeFilter: ["hidden", "class", "style"] });
+      }
+      floatObserver.observe(document.body, { childList: true, subtree: true });
     }
   }
 
@@ -338,12 +425,15 @@
     if (content.renderMedia) content.renderMedia(config.media || {});
     if (content.renderServices) content.renderServices(config.services || []);
     if (content.renderTestimonials) content.renderTestimonials(config.testimonials || {});
+    setupShortPlayback();
+    setupReviewCarousel();
     if (content.renderContactMeta) content.renderContactMeta(config);
     setupWhatsApp(config.whatsapp || {});
     setupFaq();
     setupHeaderOffset();
     setupCurrentSection();
     setupReveal();
+    setupAboutMotion();
     setupConsultaForm(config.contact || {});
   }
 
@@ -364,7 +454,9 @@
       field.error.textContent = message;
       field.error.hidden = !message;
       field.input.setAttribute("aria-invalid", message ? "true" : "false");
-      if (message) field.input.setAttribute("aria-describedby", field.error.id);
+      var hint = field.input.getAttribute("data-hint");
+      if (message) field.input.setAttribute("aria-describedby", hint ? hint + " " + field.error.id : field.error.id);
+      else if (hint) field.input.setAttribute("aria-describedby", hint);
       else field.input.removeAttribute("aria-describedby");
     }
 
@@ -377,21 +469,104 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 
-    function validPhone(value) {
-      var digits = value.replace(/\D/g, "");
-      return digits.length === 10 || digits.length === 11 || /^55\d{10,11}$/.test(digits);
+    function phoneDigits(value) {
+      var digits = String(value || "").replace(/\D/g, "");
+      if (digits.slice(0, 2) === "55" && digits.length >= 12) digits = digits.slice(2);
+      if (digits.charAt(0) === "0" && digits.length >= 11) digits = digits.slice(1);
+      return digits.slice(0, 11);
+    }
+
+    function maskLocal(local) {
+      var mobile = local.charAt(0) === "9";
+      local = local.slice(0, mobile ? 9 : 8);
+      if (!local) return "(41) ";
+      var cut = mobile ? 5 : 4;
+      var body = local.length > cut ? local.slice(0, cut) + "-" + local.slice(cut) : local;
+      return "(41) " + body;
+    }
+
+    function maskWithDdd(digits) {
+      var ddd = digits.slice(0, 2);
+      var local = digits.slice(2);
+      var mobile = local.charAt(0) === "9" || local.length > 8;
+      local = local.slice(0, mobile ? 9 : 8);
+      if (!local) return "(" + ddd + ") ";
+      var cut = mobile ? 5 : 4;
+      var body = local.length > cut ? local.slice(0, cut) + "-" + local.slice(cut) : local;
+      return "(" + ddd + ") " + body;
+    }
+
+    function formatCuritibaPhone(value, typing) {
+      var digits = phoneDigits(value);
+      if (!digits) return "";
+      if (digits.slice(0, 2) === "41") return maskLocal(digits.slice(2));
+      if (digits.charAt(0) === "9") return maskLocal(digits);
+      if (!typing && digits.length === 8 && /^[2-5]/.test(digits)) return maskLocal(digits);
+      if (digits.length > 8) return maskWithDdd(digits);
+      if (digits.length > 4) return digits.slice(0, 4) + "-" + digits.slice(4);
+      return digits;
+    }
+
+    function parsedPhone(value) {
+      var digits = phoneDigits(value);
+      if (digits.slice(0, 2) === "41") return { ddd: "41", local: digits.slice(2) };
+      if (digits.charAt(0) === "9" && digits.length <= 9) return { ddd: "41", local: digits };
+      if (/^[2-5]\d{7}$/.test(digits)) return { ddd: "41", local: digits };
+      return { ddd: digits.slice(0, 2), local: digits.slice(2), foreign: true };
+    }
+
+    function isFakeLocal(local) {
+      if (/^(\d)\1+$/.test(local)) return true;
+      var rising = true;
+      var falling = true;
+      var index;
+      for (index = 1; index < local.length; index += 1) {
+        var diff = Number(local.charAt(index)) - Number(local.charAt(index - 1));
+        if (diff !== 1) rising = false;
+        if (diff !== -1) falling = false;
+      }
+      return rising || falling;
+    }
+
+    function validCuritibaPhone(value) {
+      var parts = parsedPhone(value);
+      if (parts.foreign || parts.ddd !== "41") return false;
+      var local = parts.local;
+      var mobile = /^9\d{8}$/.test(local);
+      var landline = /^[2-5]\d{7}$/.test(local);
+      if (!mobile && !landline) return false;
+      return !isFakeLocal(local);
+    }
+
+    function phoneMessage(value) {
+      if (!String(value || "").trim()) return "Informe um telefone de Curitiba com DDD 41.";
+      if (!validCuritibaPhone(value)) return "Use um número real de Curitiba, com DDD 41. Exemplo: (41) 99901-7892.";
+      return "";
+    }
+
+    if (fields.telefone.input) {
+      fields.telefone.input.addEventListener("input", function () {
+        var formatted = formatCuritibaPhone(fields.telefone.input.value, true);
+        if (fields.telefone.input.value !== formatted) {
+          fields.telefone.input.value = formatted;
+        }
+      });
+      fields.telefone.input.addEventListener("blur", function () {
+        fields.telefone.input.value = formatCuritibaPhone(fields.telefone.input.value, false);
+      });
     }
 
     function validate() {
       var nome = fields.nome.input.value.trim();
       var email = fields.email.input.value.trim();
-      var telefone = fields.telefone.input.value.trim();
+      var telefone = formatCuritibaPhone(fields.telefone.input.value.trim(), false);
       var mensagem = fields.mensagem.input.value.trim();
       var ok = true;
 
+      if (telefone) fields.telefone.input.value = telefone;
       setFieldError(fields.nome, nome.length >= 2 ? "" : "Informe seu nome.");
       setFieldError(fields.email, validEmail(email) ? "" : "Informe um e-mail válido.");
-      setFieldError(fields.telefone, !telefone || validPhone(telefone) ? "" : "Informe um telefone com DDD.");
+      setFieldError(fields.telefone, phoneMessage(telefone));
       setFieldError(fields.mensagem, mensagem.length >= 10 ? "" : "Escreva a consulta com pelo menos uma frase.");
       Object.keys(fields).forEach(function (key) {
         if (fields[key].error && !fields[key].error.hidden) ok = false;
@@ -409,15 +584,32 @@
       }
     }
 
+    function isLocalReview() {
+      var host = String(location.hostname || "");
+      if (location.protocol === "file:") return true;
+      return host === "localhost" || host === "127.0.0.1" || host === "[::1]" || host === "::1";
+    }
+
     var pending = document.getElementById("consulta-pending");
     var button = form.querySelector(".btn-consulta");
-    if (pending) pending.hidden = Boolean(sendEndpoint());
-    if (button && sendEndpoint()) button.disabled = false;
+    var fallback = document.getElementById("contact-fallback");
+    var endpointReady = Boolean(sendEndpoint());
+    var local = isLocalReview();
+    var whatsappReady = Boolean(document.querySelector("a[data-whatsapp-source]"));
+
+    if (!endpointReady && !local && whatsappReady) {
+      form.hidden = true;
+      if (fallback) fallback.hidden = false;
+    } else {
+      form.hidden = false;
+      if (fallback) fallback.hidden = true;
+      if (button) button.disabled = !endpointReady && !local;
+      if (pending) pending.hidden = endpointReady;
+    }
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       var endpoint = sendEndpoint();
-      if (!endpoint) return;
 
       setStatus("", "");
       var data = validate();
@@ -434,12 +626,19 @@
         return;
       }
 
+      if (!endpoint) {
+        if (!isLocalReview()) return;
+        setStatus("review", "Mensagem conferida nesta revisão. Nada foi enviado: o destino do formulário ainda não está configurado.");
+        return;
+      }
+
       var body = new FormData();
       body.append("nome", data.nome);
       body.append("email", data.email);
       body.append("telefone", data.telefone);
       body.append("mensagem", data.mensagem);
       if (button) button.disabled = true;
+      setStatus("sending", "Enviando consulta…");
       fetch(endpoint, { method: "POST", body: body, headers: { Accept: "application/json" } })
         .then(function (response) {
           if (!response.ok) throw new Error("rejected");
@@ -456,8 +655,137 @@
     });
   }
 
+  function setupReviewCarousel() {
+    var root = document.querySelector("[data-review-carousel]");
+    if (!root) return;
+    var track = root.querySelector(".review-track");
+    var cards = track ? Array.prototype.slice.call(track.children) : [];
+    if (cards.length < 2) return;
+
+    var index = 0;
+    var timer = 0;
+    var paused = false;
+    var offscreen = true;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var delay = 5000;
+    var dots = Array.prototype.slice.call(root.querySelectorAll("[data-review-dot]"));
+
+    function show(next) {
+      index = (next + cards.length) % cards.length;
+      track.style.transform = "translateX(" + (-index * 100) + "%)";
+      cards.forEach(function (card, itemIndex) {
+        var active = itemIndex === index;
+        card.setAttribute("aria-hidden", active ? "false" : "true");
+        if (active) card.removeAttribute("inert");
+        else card.setAttribute("inert", "");
+      });
+      dots.forEach(function (dot, itemIndex) {
+        if (itemIndex === index) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+
+    function stop() {
+      if (!timer) return;
+      window.clearInterval(timer);
+      timer = 0;
+    }
+
+    function start() {
+      if (reduce || paused || offscreen || document.hidden || timer) return;
+      timer = window.setInterval(function () {
+        show(index + 1);
+      }, delay);
+    }
+
+    function go(next) {
+      show(next);
+      stop();
+      start();
+    }
+
+    var prev = root.querySelector("[data-review-prev]");
+    var next = root.querySelector("[data-review-next]");
+    if (prev) prev.addEventListener("click", function () { go(index - 1); });
+    if (next) next.addEventListener("click", function () { go(index + 1); });
+    dots.forEach(function (dot, itemIndex) {
+      dot.addEventListener("click", function () { go(itemIndex); });
+    });
+
+    root.addEventListener("mouseenter", function () {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("mouseleave", function () {
+      paused = false;
+      start();
+    });
+    root.addEventListener("focusin", function () {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("focusout", function (event) {
+      if (root.contains(event.relatedTarget)) return;
+      paused = false;
+      start();
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    show(0);
+    if (typeof IntersectionObserver === "function") {
+      var observer = new IntersectionObserver(function (entries) {
+        offscreen = !entries.some(function (entry) { return entry.isIntersecting; });
+        if (offscreen) stop();
+        else start();
+      }, { threshold: 0.35 });
+      observer.observe(root);
+    } else {
+      offscreen = false;
+      start();
+    }
+  }
+
+  function setupShortPlayback() {
+    var frames = document.querySelectorAll(".short-frame iframe");
+    Array.prototype.forEach.call(frames, function (iframe) {
+      iframe.addEventListener("error", function () {
+        var figure = iframe.closest(".quote-short");
+        var status = figure ? figure.querySelector(".short-status") : null;
+        if (status) status.hidden = false;
+      });
+    });
+  }
+
+  function setupAboutMotion() {
+    var section = document.getElementById("sobre");
+    if (!section) return;
+    var nodes = section.querySelectorAll(".about-collage, .about-copy");
+    if (!nodes.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || typeof IntersectionObserver !== "function") {
+      Array.prototype.forEach.call(nodes, function (node) {
+        node.classList.add("is-visible");
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        Array.prototype.forEach.call(nodes, function (node) {
+          node.classList.add("is-visible");
+        });
+        observer.disconnect();
+      });
+    }, { threshold: 0.18 });
+
+    observer.observe(section);
+  }
+
   function setupReveal() {
-    var nodes = document.querySelectorAll(".card, .short-frame");
+    var nodes = document.querySelectorAll(".card");
     if (!nodes.length) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || typeof IntersectionObserver !== "function") {
       Array.prototype.forEach.call(nodes, function (node) {

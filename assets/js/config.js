@@ -34,18 +34,18 @@ window.RICO_CONFIG = {
       height: 480,
     },
     about: {
-      src: "assets/images/rico-hero-escritorio.webp",
-      alt: "Rico Teixeira ao lado de um cão, em uma área gramada.",
-      width: 600,
-      height: 480,
+      src: "",
+      alt: "",
+      width: 800,
+      height: 1000,
     },
   },
 
   about: {
     biography:
-      "Rico Teixeira acompanha famílias em Curitiba que querem uma convivência mais tranquila com o cão. Ele começa conhecendo o animal e escutando como é o dia a dia em casa.",
+      "Rico Teixeira trabalha com adestramento de cães há mais de 16 anos. Em 2022, conquistou o título de campeão brasileiro por equipe no adestramento esportivo com a equipe Voraus CBPA. Hoje, atende famílias em Curitiba que buscam uma convivência mais tranquila com seus cães.",
     approach:
-      "O trabalho começa com uma consultoria comportamental. Nela, Rico observa o estilo de comportamento do cão e entende a rotina da família. O atendimento segue na residência, com a participação de quem cuida do cão.",
+      "Tudo começa com uma consultoria comportamental. Rico observa o cão e conversa com os tutores para entender a rotina da casa. A partir dessa avaliação, orienta a família sobre o que pode mudar no dia a dia e como todos podem participar do treinamento. O acompanhamento acontece na residência, onde os tutores podem praticar as orientações nas situações do cotidiano.",
   },
 
   services: [
@@ -85,9 +85,30 @@ window.RICO_CONFIG = {
       {
         youtube: "Rx9Nye8tpA4",
         name: "Milena Sordi",
-        poster: "assets/images/depoimento-milena.webp",
-        posterWidth: 480,
-        posterHeight: 853,
+      },
+      {
+        name: "Claudio Fraga",
+        quote: "Destaca a pontualidade do Rico e o que ele ensinou à família sobre os cães.",
+        rating: 5,
+        url: "https://share.google/qJtLcplqK72LEWSlR",
+      },
+      {
+        name: "Elizabeth Heiss",
+        quote: "Destaca a comunicação do Rico e como ele a ajudou a entender seu papel no treinamento do Rex.",
+        rating: 5,
+        url: "https://share.google/bv47FnVoKPEbq9nuC",
+      },
+      {
+        name: "Ingrid Celeste Ferreira",
+        quote: "Destaca a atenção desde o primeiro contato e o carinho e a técnica no treinamento da Mimosa.",
+        rating: 5,
+        url: "https://share.google/WRYwgISdV08vCc6P9",
+      },
+      {
+        name: "Cidico",
+        quote: "Conta que, depois de cerca de sete meses de treinamento com seus quatro cães, a convivência em casa ficou mais tranquila.",
+        rating: 5,
+        url: "https://share.google/ay9okl2kZD3pDrMhp",
       },
     ],
   },

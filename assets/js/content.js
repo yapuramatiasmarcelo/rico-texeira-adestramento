@@ -105,7 +105,12 @@
     var hero = document.querySelector('[data-media="hero"]');
     var about = document.querySelector('[data-media="about"]');
     if (hero && !hero.querySelector("img")) mountImage(hero, source.hero, "high");
-    if (about) mountImage(about, source.about, "low");
+    if (about) {
+      var aboutMedia = source.about || {};
+      var heroSrc = String((source.hero && source.hero.src) || "").trim();
+      var aboutSrc = String(aboutMedia.src || "").trim();
+      if (aboutSrc && aboutSrc !== heroSrc) mountImage(about, aboutMedia, "low");
+    }
   }
 
   function renderServices(services) {
@@ -171,6 +176,7 @@
       body.appendChild(title);
       body.appendChild(copy);
       if (frame) card.appendChild(frame);
+      else card.classList.add("is-text");
       card.appendChild(body);
       list.appendChild(card);
     });
@@ -219,37 +225,15 @@
     var frame = document.createElement("div");
     frame.className = "short-frame";
 
-    var poster = String(item.poster || "").trim();
-    if (isSafeImagePath(poster)) {
-      var image = document.createElement("img");
-      image.className = "short-thumb";
-      image.src = poster;
-      image.alt = "Miniatura do depoimento de " + person;
-      image.width = Number(item.posterWidth) || 480;
-      image.height = Number(item.posterHeight) || 853;
-      image.decoding = "async";
-      image.loading = "lazy";
-      image.addEventListener("error", function () {
-        image.hidden = true;
-      });
-      frame.appendChild(image);
-    }
-
-    var button = document.createElement("button");
-    button.type = "button";
-    button.className = "short-play";
-    button.textContent = "Assistir ao depoimento";
-    button.addEventListener("click", function () {
-      if (frame.querySelector("iframe")) return;
-      var player = document.createElement("iframe");
-      player.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
-      player.title = "Depoimento de " + person;
-      player.setAttribute("allow", "autoplay; encrypted-media; picture-in-picture; fullscreen");
-      player.setAttribute("allowfullscreen", "");
-      player.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-      frame.replaceChildren(player);
-    });
-    frame.appendChild(button);
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube-nocookie.com/embed/" + id;
+    iframe.title = "Depoimento de " + person;
+    iframe.width = "220";
+    iframe.height = "391";
+    iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen");
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+    frame.appendChild(iframe);
 
     var watch = document.createElement("a");
     watch.className = "short-watch";
@@ -266,36 +250,143 @@
     var name = document.createElement("span");
     name.className = "quote-name";
     name.textContent = person;
+    var status = document.createElement("p");
+    status.className = "short-status";
+    status.hidden = true;
+    status.textContent = "O vídeo não carregou nesta página.";
 
     caption.appendChild(name);
+    caption.appendChild(status);
     caption.appendChild(watch);
     figure.appendChild(frame);
     figure.appendChild(caption);
     return figure;
   }
 
+  function reviewInitials(name) {
+    var parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return "";
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  }
+
   function renderTestimonialQuote(item) {
-    var figure = document.createElement("figure");
-    figure.className = "quote";
-    var quote = document.createElement("blockquote");
-    var text = document.createElement("p");
-    text.textContent = String(item.quote).trim();
-    quote.appendChild(text);
-    var caption = document.createElement("figcaption");
-    var name = document.createElement("span");
-    name.className = "quote-name";
-    name.textContent = String(item.name).trim();
-    caption.appendChild(name);
-    var context = String(item.context || "").trim();
-    if (context) {
-      var detail = document.createElement("span");
-      detail.className = "quote-context";
-      detail.textContent = context;
-      caption.appendChild(detail);
+    var person = String(item.name).trim();
+    var article = document.createElement("article");
+    article.className = "review-card";
+
+    var personRow = document.createElement("div");
+    personRow.className = "review-person";
+    var avatar = document.createElement("span");
+    avatar.className = "review-avatar";
+    avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = reviewInitials(person);
+    var name = document.createElement("h3");
+    name.className = "review-name";
+    name.textContent = person;
+    personRow.appendChild(avatar);
+    personRow.appendChild(name);
+
+    var rating = document.createElement("p");
+    rating.className = "review-rating";
+    var stars = document.createElement("span");
+    stars.className = "review-stars";
+    stars.setAttribute("aria-hidden", "true");
+    stars.textContent = "★★★★★";
+    var ratingText = document.createElement("span");
+    ratingText.className = "sr-only";
+    ratingText.textContent = "5 de 5 estrelas";
+    rating.appendChild(stars);
+    rating.appendChild(ratingText);
+
+    var summary = document.createElement("p");
+    summary.className = "review-summary";
+    summary.textContent = String(item.quote).trim();
+
+    article.appendChild(personRow);
+    article.appendChild(rating);
+    article.appendChild(summary);
+
+    var href = String(item.url || "").trim();
+    if (isPublicUrl(href)) {
+      var link = document.createElement("a");
+      link.className = "review-link";
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Ler avaliação no Google";
+      var hint = document.createElement("span");
+      hint.className = "sr-only";
+      hint.textContent = " (abre em uma nova aba)";
+      link.appendChild(hint);
+      article.appendChild(link);
     }
-    figure.appendChild(quote);
-    figure.appendChild(caption);
-    return figure;
+
+    return article;
+  }
+
+  function renderReviewCarousel(quotes) {
+    var wrap = document.createElement("div");
+    wrap.className = "review-carousel";
+    wrap.setAttribute("data-review-carousel", "");
+    wrap.setAttribute("aria-roledescription", "carrossel");
+    wrap.setAttribute("aria-label", "Avaliações no Google");
+
+    var viewport = document.createElement("div");
+    viewport.className = "review-viewport";
+    var track = document.createElement("div");
+    track.className = "review-track";
+    quotes.forEach(function (node, index) {
+      if (index > 0) {
+        node.setAttribute("aria-hidden", "true");
+        node.setAttribute("inert", "");
+      }
+      track.appendChild(node);
+    });
+    viewport.appendChild(track);
+    wrap.appendChild(viewport);
+
+    if (quotes.length < 2) return wrap;
+
+    var controls = document.createElement("div");
+    controls.className = "review-controls";
+
+    var prev = document.createElement("button");
+    prev.type = "button";
+    prev.className = "review-nav";
+    prev.setAttribute("data-review-prev", "");
+    prev.setAttribute("aria-label", "Avaliação anterior");
+    prev.textContent = "‹";
+
+    var dots = document.createElement("div");
+    dots.className = "review-dots";
+    dots.setAttribute("role", "group");
+    dots.setAttribute("aria-label", "Escolher avaliação");
+    quotes.forEach(function (node, index) {
+      var name = node.querySelector(".review-name");
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "review-dot";
+      dot.setAttribute("data-review-dot", String(index));
+      if (index === 0) dot.setAttribute("aria-current", "true");
+      var label = "Avaliação " + (index + 1) + " de " + quotes.length;
+      if (name && name.textContent) label += ", " + name.textContent;
+      dot.setAttribute("aria-label", label);
+      dots.appendChild(dot);
+    });
+
+    var next = document.createElement("button");
+    next.type = "button";
+    next.className = "review-nav";
+    next.setAttribute("data-review-next", "");
+    next.setAttribute("aria-label", "Próxima avaliação");
+    next.textContent = "›";
+
+    controls.appendChild(prev);
+    controls.appendChild(dots);
+    controls.appendChild(next);
+    wrap.appendChild(controls);
+    return wrap;
   }
 
   function renderTestimonials(testimonials) {
@@ -311,19 +402,45 @@
     if (!enabled || !items.length) {
       section.hidden = true;
       if (navItem) navItem.hidden = true;
+      var hiddenFooterLink = document.querySelector('[data-footer="testimonials"]');
+      if (hiddenFooterLink) hiddenFooterLink.hidden = true;
       list.replaceChildren();
       return;
     }
 
-    list.replaceChildren();
+    var videos = [];
+    var quotes = [];
     items.forEach(function (item) {
-      if (isYouTubeId(item.youtube)) list.appendChild(renderYouTubeShort(item));
-      else if (isSafeImagePath(String(item.video || "").trim())) list.appendChild(renderTestimonialVideo(item));
-      else list.appendChild(renderTestimonialQuote(item));
+      if (isYouTubeId(item.youtube)) videos.push(renderYouTubeShort(item));
+      else if (isSafeImagePath(String(item.video || "").trim())) videos.push(renderTestimonialVideo(item));
+      else quotes.push(renderTestimonialQuote(item));
     });
+
+    list.replaceChildren();
+    var layout = document.createElement("div");
+    layout.className = "testimonials-layout";
+    if (videos.length && quotes.length) layout.classList.add("is-split");
+    else if (videos.length) layout.classList.add("is-video-only");
+    else layout.classList.add("is-quotes-only");
+
+    if (videos.length) {
+      var videoCol = document.createElement("div");
+      videoCol.className = "testimonials-video";
+      videos.forEach(function (node) { videoCol.appendChild(node); });
+      layout.appendChild(videoCol);
+    }
+    if (quotes.length) {
+      var quoteCol = document.createElement("div");
+      quoteCol.className = "testimonials-quotes";
+      quoteCol.appendChild(renderReviewCarousel(quotes));
+      layout.appendChild(quoteCol);
+    }
+    list.appendChild(layout);
 
     section.hidden = false;
     if (navItem) navItem.hidden = false;
+    var footerLink = document.querySelector('[data-footer="testimonials"]');
+    if (footerLink) footerLink.hidden = false;
   }
 
   function socialIcon(name) {
@@ -358,15 +475,42 @@
     }
   }
 
+  function formatRegion(region) {
+    var value = String(region || "").trim();
+    if (/^curitiba\s*[-–—]\s*pr$/i.test(value)) return "Curitiba–PR";
+    return value;
+  }
+
+  function renderEmail(email) {
+    var value = String(email || "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return;
+    ["contact-email", "footer-email-link"].forEach(function (id) {
+      var anchor = document.getElementById(id);
+      if (!anchor) return;
+      anchor.href = "mailto:" + value;
+      anchor.replaceChildren();
+      var at = value.indexOf("@");
+      var domain = at > 0 ? value.slice(at + 1) : "";
+      var split = domain.indexOf(".com");
+      if (at > 0 && split > 0) {
+        anchor.appendChild(document.createTextNode(value.slice(0, at + 1)));
+        anchor.appendChild(document.createElement("wbr"));
+        anchor.appendChild(document.createTextNode(domain.slice(0, split)));
+        anchor.appendChild(document.createElement("wbr"));
+        anchor.appendChild(document.createTextNode(domain.slice(split)));
+      } else {
+        anchor.textContent = value;
+      }
+    });
+  }
+
   function renderAddress(address) {
     var note = document.getElementById("address-note");
-    var frame = document.getElementById("map-frame");
     var place = String(address || "").trim();
-    if (!note || !frame || !place) return;
+    if (!note || !place) return;
 
     var query = encodeURIComponent(place);
     var mapUrl = "https://www.google.com/maps/search/?api=1&query=" + query;
-    var embedUrl = "https://maps.google.com/maps?q=" + query + "&z=16&hl=pt-BR&output=embed";
 
     note.textContent = place;
     note.hidden = false;
@@ -386,50 +530,37 @@
       linkSlot.replaceChildren(openMap);
       linkSlot.hidden = false;
     }
-
-    var iframe = document.createElement("iframe");
-    iframe.src = embedUrl;
-    iframe.title = "Mapa de " + place;
-    iframe.loading = "lazy";
-    iframe.referrerPolicy = "no-referrer-when-downgrade";
-    iframe.setAttribute("width", "600");
-    iframe.setAttribute("height", "375");
-    frame.replaceChildren(iframe);
-    frame.hidden = false;
   }
 
   function renderContactMeta(source) {
     var data = source || {};
-    var regionNote = document.getElementById("region-note");
-    var socialNote = document.getElementById("social-note");
-    var socialList = document.getElementById("social-list");
-    var region = String(data.region || "").trim();
-
+    var contact = data.contact || {};
+    var region = formatRegion(data.region);
+    renderEmail(contact.email);
     renderAddress(data.address);
-    if (regionNote && region) regionNote.textContent = region;
-    var footerRegion = document.getElementById("footer-region");
-    if (footerRegion && region) {
-      footerRegion.hidden = false;
-      footerRegion.replaceChildren();
-      var regionKicker = document.createElement("span");
-      regionKicker.className = "footer-kicker";
-      regionKicker.textContent = "Região";
-      footerRegion.appendChild(regionKicker);
-      footerRegion.appendChild(document.createTextNode(region));
-    }
-    if (!socialList || !socialNote) return;
 
+    var footerRegion = document.getElementById("footer-region");
+    if (footerRegion) {
+      if (region) {
+        footerRegion.hidden = false;
+        footerRegion.textContent = region;
+      } else {
+        footerRegion.hidden = true;
+      }
+    }
+
+    var footerSocial = document.getElementById("footer-social");
+    if (!footerSocial) return;
     var links = (Array.isArray(data.social) ? data.social : []).filter(function (item) {
       return item && String(item.name || "").trim() && isPublicUrl(String(item.url || "").trim());
     });
-
-    socialList.replaceChildren();
+    footerSocial.replaceChildren();
+    var band = footerSocial.closest(".footer-social-band");
     if (!links.length) {
-      socialNote.hidden = false;
-      socialList.hidden = true;
+      footerSocial.hidden = true;
+      if (band) band.hidden = true;
       return;
     }
-
     links.forEach(function (item) {
       var name = String(item.name).trim();
       var li = document.createElement("li");
@@ -437,38 +568,14 @@
       anchor.href = String(item.url).trim();
       anchor.target = "_blank";
       anchor.rel = "noopener noreferrer";
+      anchor.setAttribute("aria-label", name + " (abre em uma nova aba)");
       var icon = socialIcon(name);
       if (icon) anchor.appendChild(icon);
       anchor.appendChild(document.createTextNode(name));
-      var hint = document.createElement("span");
-      hint.className = "sr-only";
-      hint.textContent = " (abre em uma nova aba)";
-      anchor.appendChild(hint);
       li.appendChild(anchor);
-      socialList.appendChild(li);
+      footerSocial.appendChild(li);
     });
-    socialNote.hidden = true;
-    socialList.hidden = false;
-    var footerSocial = document.getElementById("footer-social");
-    if (footerSocial) {
-      footerSocial.replaceChildren();
-      links.forEach(function (item) {
-        var name = String(item.name).trim();
-        var li = document.createElement("li");
-        var anchor = document.createElement("a");
-        anchor.href = String(item.url).trim();
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-        anchor.textContent = name;
-        var hint = document.createElement("span");
-        hint.className = "sr-only";
-        hint.textContent = " (abre em uma nova aba)";
-        anchor.appendChild(hint);
-        li.appendChild(anchor);
-        footerSocial.appendChild(li);
-      });
-      footerSocial.hidden = false;
-    }
+    footerSocial.hidden = false;
   }
 
   window.RICO_CONTENT = {
