@@ -584,32 +584,29 @@
       }
     }
 
-    function isLocalReview() {
-      var host = String(location.hostname || "");
-      if (location.protocol === "file:") return true;
-      return host === "localhost" || host === "127.0.0.1" || host === "[::1]" || host === "::1";
-    }
-
     var pending = document.getElementById("consulta-pending");
     var button = form.querySelector(".btn-consulta");
     var fallback = document.getElementById("contact-fallback");
-    var endpointReady = Boolean(sendEndpoint());
-    var local = isLocalReview();
-    var whatsappReady = Boolean(document.querySelector("a[data-whatsapp-source]"));
+    var previewNotice = "O envio por e-mail será habilitado antes da publicação. Por enquanto, fale com o Rico pelo WhatsApp.";
 
-    if (!endpointReady && !local && whatsappReady) {
-      form.hidden = true;
-      if (fallback) fallback.hidden = false;
-    } else {
+    function showPreviewState(endpointReady) {
       form.hidden = false;
       if (fallback) fallback.hidden = true;
-      if (button) button.disabled = !endpointReady && !local;
-      if (pending) pending.hidden = endpointReady;
+      if (button) button.disabled = !endpointReady;
+      if (!pending) return;
+      pending.hidden = endpointReady;
+      if (!endpointReady) pending.textContent = previewNotice;
     }
+
+    showPreviewState(Boolean(sendEndpoint()));
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       var endpoint = sendEndpoint();
+      if (!endpoint) {
+        showPreviewState(false);
+        return;
+      }
 
       setStatus("", "");
       var data = validate();
@@ -623,12 +620,6 @@
       var trap = document.getElementById("consulta-empresa");
       if (trap && trap.value.trim()) {
         setStatus("error", "Não foi possível enviar a mensagem. Tente de novo ou fale com Rico pelo WhatsApp.");
-        return;
-      }
-
-      if (!endpoint) {
-        if (!isLocalReview()) return;
-        setStatus("review", "Mensagem conferida nesta revisão. Nada foi enviado: o destino do formulário ainda não está configurado.");
         return;
       }
 
