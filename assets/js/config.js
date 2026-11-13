@@ -14,6 +14,11 @@ window.RICO_CONFIG = {
   region: "Curitiba - PR",
   address: "R. Júlio Eduardo Gineste, 338 - Santa Quitéria, Curitiba - PR, 80310-410",
 
+  contact: {
+    email: "contato@ricoteixeiraadestramento.com.br",
+    endpoint: "",
+  },
+
   social: [
     { name: "Instagram", url: "https://www.instagram.com/ricoteixeira75/" },
     { name: "Facebook", url: "https://www.facebook.com/ricoteixeiraadestramento" },
@@ -22,60 +27,55 @@ window.RICO_CONFIG = {
 
   media: {
     hero: {
-      src: "",
-      alt: "Rico Teixeira trabalhando com um cão",
-      width: 1200,
-      height: 960,
+      src: "assets/images/rico-hero-escritorio.webp",
+      srcMobile: "assets/images/rico-hero-celular.webp",
+      alt: "Rico Teixeira ao lado de um cão, em uma área gramada.",
+      width: 600,
+      height: 480,
     },
     about: {
-      src: "",
-      alt: "Rico Teixeira",
-      width: 900,
-      height: 1125,
+      src: "assets/images/rico-hero-escritorio.webp",
+      alt: "Rico Teixeira ao lado de um cão, em uma área gramada.",
+      width: 600,
+      height: 480,
     },
   },
 
   about: {
-    biography: "",
-    approach: "",
+    biography:
+      "Rico Teixeira acompanha famílias em Curitiba que querem uma convivência mais tranquila com o cão. Ele começa conhecendo o animal e escutando como é o dia a dia em casa.",
+    approach:
+      "O trabalho começa com uma consultoria comportamental. Nela, Rico observa o estilo de comportamento do cão e entende a rotina da família. O atendimento segue na residência, com a participação de quem cuida do cão.",
   },
 
   services: [
     {
-      id: "espaco-1",
-      provisional: true,
-      name: "Espaço de serviço 1",
-      description:
-        "Conteúdo provisório de revisão. Este cartão não representa um serviço confirmado. Substitua o nome, a descrição e a imagem quando o atendimento for definido.",
+      id: "consultoria-comportamental",
+      provisional: false,
+      name: "Consultoria Comportamental",
+      description: "Análise do comportamento do seu cão.",
       image: "",
-      imageAlt: "",
-      imageLabel: "Imagem do serviço 1",
-      width: 960,
-      height: 640,
     },
     {
-      id: "espaco-2",
-      provisional: true,
-      name: "Espaço de serviço 2",
-      description:
-        "Conteúdo provisório de revisão. Este cartão não representa um serviço confirmado. Substitua o nome, a descrição e a imagem quando o atendimento for definido.",
+      id: "adestramento-residencial",
+      provisional: false,
+      name: "Adestramento Residencial",
+      description: "Seu cão adestrado no conforto da sua casa.",
       image: "",
-      imageAlt: "",
-      imageLabel: "Imagem do serviço 2",
-      width: 960,
-      height: 640,
     },
     {
-      id: "espaco-3",
-      provisional: true,
-      name: "Espaço de serviço 3",
-      description:
-        "Conteúdo provisório de revisão. Este cartão não representa um serviço confirmado. Substitua o nome, a descrição e a imagem quando o atendimento for definido.",
+      id: "uber-pet",
+      provisional: false,
+      name: "Uber Pet",
+      description: "Transporte seguro e confortável para Curitiba e Região.",
       image: "",
-      imageAlt: "",
-      imageLabel: "Imagem do serviço 3",
-      width: 960,
-      height: 640,
+    },
+    {
+      id: "dog-walker",
+      provisional: false,
+      name: "Dog Walker",
+      description: "Passeios e caminhadas para manter seu cão saudável e feliz.",
+      image: "",
     },
   ],
 
@@ -83,10 +83,11 @@ window.RICO_CONFIG = {
     enabled: true,
     items: [
       {
-        video: "assets/videos/depoimento-1.mp4",
+        youtube: "Rx9Nye8tpA4",
         name: "Milena Sordi",
-        width: 848,
-        height: 480,
+        poster: "assets/images/depoimento-milena.webp",
+        posterWidth: 480,
+        posterHeight: 853,
       },
     ],
   },

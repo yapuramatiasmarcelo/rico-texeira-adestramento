@@ -9,7 +9,7 @@
     <title>Rico Teixeira Adestramento</title>
     <meta name="description" content="Conheça o trabalho de Rico Teixeira e converse sobre as necessidades do seu cão e da sua família.">
     <meta name="color-scheme" content="light">
-    <meta name="theme-color" content="#f3efe6">
+    <meta name="theme-color" content="#faf5ec">
     <meta property="og:site_name" content="Rico Teixeira Adestramento">
     <meta property="og:title" content="Rico Teixeira Adestramento">
     <meta property="og:description" content="Conheça o trabalho de Rico Teixeira e converse sobre as necessidades do seu cão e da sua família.">
@@ -31,13 +31,18 @@
 
     <header class="site-header">
       <div class="header-bar">
-        <div class="review-strip" id="whatsapp-review-note" role="status">
+        <div class="review-strip" id="whatsapp-review-note" role="status" hidden>
           Versão de revisão: o WhatsApp comercial ainda não foi configurado. Os botões de conversa ficam desativados.
         </div>
         <div class="container header-inner">
-          <a class="brand" href="#inicio" aria-label="Rico Teixeira Adestramento, início">
-            <span class="brand-name">Rico Teixeira</span>
-            <span class="brand-service">Adestramento</span>
+          <a class="brand" href="#inicio">
+            <span class="brand-mark">
+              <img src="assets/images/logo-rico-texeira.webp" alt="Chama o Tio Rico, ele resolve." width="224" height="224" decoding="async">
+            </span>
+            <span class="brand-text">
+              <span class="brand-name">Rico Teixeira</span>
+              <span class="brand-service">Adestramento</span>
+            </span>
           </a>
 
           <nav id="site-nav" class="site-nav" aria-label="Principal">
@@ -45,7 +50,9 @@
               <li><a href="#inicio">Início</a></li>
               <li><a href="#sobre">Sobre</a></li>
               <li><a href="#servicos">Serviços</a></li>
+              <li><a href="#como-funciona">Como funciona</a></li>
               <li data-nav="testimonials" hidden><a href="#depoimentos">Depoimentos</a></li>
+              <li><a href="#perguntas">Perguntas</a></li>
               <li><a href="#contato">Contato</a></li>
             </ul>
           </nav>
@@ -53,12 +60,13 @@
           <div class="header-actions">
             <button
               type="button"
-              class="btn btn-primary header-cta"
+              class="btn btn-whatsapp header-cta"
               data-whatsapp
               data-whatsapp-source="header"
               disabled
             >
-              Falar com Rico
+              <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+              Conversar com Rico
             </button>
             <button
               type="button"
@@ -76,7 +84,7 @@
 
     <main id="conteudo" tabindex="-1">
       <noscript>
-        <p class="noscript-note">O texto principal permanece visível. Serviços e contato completo dependem de JavaScript nesta versão.</p>
+        <p class="noscript-note">Os cartões de serviço são carregados com JavaScript. O depoimento continua disponível no YouTube.</p>
       </noscript>
 
       <section id="inicio" class="hero">
@@ -88,28 +96,25 @@
             <div class="actions">
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-whatsapp"
                 data-whatsapp
                 data-whatsapp-source="hero"
                 disabled
               >
+                <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
                 Conversar com Rico
               </button>
               <a class="btn btn-secondary" href="#sobre">Conhecer o trabalho</a>
-              <p class="whatsapp-inline-note">Desativado até configurar o WhatsApp comercial.</p>
+              <p class="whatsapp-inline-note" hidden>Desativado até configurar o WhatsApp comercial.</p>
             </div>
-            <svg class="bond-mark" viewBox="0 0 168 52" fill="none" aria-hidden="true">
-              <path d="M8 46h152" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              <circle cx="50" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/>
-              <path d="M50 16v13M44 23h8M45 42l5-13 6 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M58 22c14 2 28 6 46 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M104 36c8-10 22-10 28-2 3 4 8 5 12 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="132" cy="24" r="3" stroke="currentColor" stroke-width="1.4"/>
-              <path d="M108 38v8M120 38v8M136 36v10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
           </div>
 
           <figure class="media-frame media-frame--hero" data-media="hero">
+            <picture>
+              <source media="(max-width: 47.99rem)" srcset="assets/images/rico-hero-celular.webp" type="image/webp">
+              <source srcset="assets/images/rico-hero-escritorio.webp" type="image/webp">
+              <img src="assets/images/rico-hero-escritorio.webp" alt="Rico Teixeira ao lado de um cão, em uma área gramada." width="600" height="480" decoding="async" fetchpriority="high">
+            </picture>
             <div
               class="placeholder"
               role="img"
@@ -157,8 +162,7 @@
         <div class="container">
           <header class="section-intro">
             <p class="eyebrow">Serviços</p>
-            <h2>Orientação para as necessidades do seu cão</h2>
-            <p>Cada atendimento entra aqui com nome, descrição e imagem somente depois da confirmação.</p>
+            <h2>O Melhor Serviço Para o Seu Melhor Amigo!</h2>
           </header>
           <div id="services-list" class="cards">
             <p class="review-note">Os cartões de serviço são carregados da configuração central.</p>
@@ -166,51 +170,269 @@
         </div>
       </section>
 
-      <section id="depoimentos" class="section" hidden>
+      <section id="como-funciona" class="section">
+        <div class="container">
+          <header class="section-intro">
+            <p class="eyebrow">Como funciona</p>
+            <h2>Como funciona</h2>
+            <p>O trabalho começa com uma avaliação comportamental, para conhecer o cão e entender a rotina da família.</p>
+          </header>
+          <ol class="steps">
+            <li>
+              <h3>Avaliação comportamental</h3>
+              <p>Rico conhece o cão e a rotina de quem vive com ele. Essa conversa é a consultoria comportamental, a primeira aula.</p>
+            </li>
+            <li>
+              <h3>O que é observado</h3>
+              <p>São analisados vários fatores, entre eles o estilo de comportamento do cão.</p>
+            </li>
+            <li>
+              <h3>Atendimento em casa</h3>
+              <p>O acompanhamento segue na residência, com a participação do tutor.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="depoimentos" class="section">
         <div class="container">
           <header class="section-intro">
             <p class="eyebrow">Depoimentos</p>
             <h2>Depoimentos</h2>
           </header>
-          <div id="testimonials-list" class="quotes"></div>
+          <div id="testimonials-list" class="quotes">
+            <p class="short-fallback">
+              <a class="short-watch" href="https://www.youtube.com/shorts/Rx9Nye8tpA4" target="_blank" rel="noopener noreferrer">Assistir no YouTube<span class="sr-only"> (abre em uma nova aba)</span></a>
+            </p>
+          </div>
         </div>
       </section>
 
-      <section id="contato" class="section">
+      <section id="perguntas" class="section section-muted">
         <div class="container">
-          <div class="contact-panel">
+          <header class="section-intro">
+            <p class="eyebrow">Dúvidas</p>
+            <h2>Perguntas Frequentes</h2>
+            <p>Tudo o que você precisa saber antes de começar o adestramento do seu melhor amigo.</p>
+          </header>
+          <div class="faq-list">
+            <article class="faq-item">
+              <h3>
+                <button type="button" class="faq-trigger" id="faq-tempo-btn" aria-expanded="false" aria-controls="faq-tempo">
+                  <span>Em quanto tempo meu cachorro estará adestrado?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-tempo" role="region" aria-labelledby="faq-tempo-btn" aria-hidden="true">
+                <div class="faq-panel-inner">
+                  <p>Não há um prazo único para todos. O tempo depende do cão e da rotina da família, e isso é conversado na avaliação comportamental.</p>
+                </div>
+              </div>
+            </article>
+            <article class="faq-item">
+              <h3>
+                <button type="button" class="faq-trigger" id="faq-local-btn" aria-expanded="false" aria-controls="faq-local">
+                  <span>O atendimento é em casa ou em um centro de treinamento?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-local" role="region" aria-labelledby="faq-local-btn" aria-hidden="true">
+                <div class="faq-panel-inner">
+                  <p>O atendimento é residencial, com o acompanhamento e a participação do tutor do cão.</p>
+                </div>
+              </div>
+            </article>
+            <article class="faq-item">
+              <h3>
+                <button type="button" class="faq-trigger" id="faq-como-btn" aria-expanded="false" aria-controls="faq-como">
+                  <span>Como funciona o adestramento?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-como" role="region" aria-labelledby="faq-como-btn" aria-hidden="true">
+                <div class="faq-panel-inner">
+                  <p>Tudo começa com uma consultoria comportamental, a primeira aula do cão. Nela são analisados vários fatores, entre eles o estilo de comportamento do cão, e a rotina da família.</p>
+                </div>
+              </div>
+            </article>
+            <article class="faq-item">
+              <h3>
+                <button type="button" class="faq-trigger" id="faq-valor-btn" aria-expanded="false" aria-controls="faq-valor">
+                  <span>Quanto custa o adestramento?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-valor" role="region" aria-labelledby="faq-valor-btn" aria-hidden="true">
+                <div class="faq-panel-inner">
+                  <p>Os valores variam conforme a dificuldade de entendimento e de aprendizagem de cada cão. Essa análise é feita na consultoria comportamental.</p>
+                </div>
+              </div>
+            </article>
+            <article class="faq-item">
+              <h3>
+                <button type="button" class="faq-trigger" id="faq-pagamento-btn" aria-expanded="false" aria-controls="faq-pagamento">
+                  <span>Quais são as formas de pagamento?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-pagamento" role="region" aria-labelledby="faq-pagamento-btn" aria-hidden="true">
+                <div class="faq-panel-inner">
+                  <p>As formas de pagamento são combinadas diretamente com Rico.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="faq-cta">
+            <p>Ainda tem dúvidas? Converse com Rico.</p>
+            <button
+              type="button"
+              class="btn btn-whatsapp"
+              data-whatsapp
+              data-whatsapp-source="perguntas"
+              disabled
+            >
+              <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+              Conversar com Rico
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" class="section contact-section">
+        <div class="container contact-layout">
+          <div class="contact-copy">
             <p class="eyebrow eyebrow-light">Contato</p>
             <h2>Vamos conversar sobre o seu cão?</h2>
-            <p id="contact-intro" class="contact-lead">Conte como está a rotina com o seu cão. A conversa serve para entender o contexto da sua família e orientar o próximo passo.</p>
+            <p id="contact-intro" class="contact-lead">Conte o que você gostaria de melhorar na convivência com seu cão. Fale com Rico pelo WhatsApp.</p>
             <div class="actions">
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-whatsapp"
                 data-whatsapp
                 data-whatsapp-source="contato"
                 disabled
               >
+                <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.004a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.23 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
                 Conversar com Rico
               </button>
-              <p class="whatsapp-inline-note" id="whatsapp-number">Desativado até configurar o WhatsApp comercial.</p>
             </div>
-            <div class="contact-meta">
-              <p id="address-note" class="meta-note" hidden></p>
-              <p id="region-note" class="meta-note">Região de atendimento em confirmação.</p>
-              <p id="social-note" class="meta-note">Redes sociais em confirmação.</p>
-              <ul id="social-list" class="social-list" hidden></ul>
+            <div class="contact-facts">
+              <div class="contact-fact">
+                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11zm1.8.3 6.2 4.3 6.2-4.3a1 1 0 0 0-1-.3h-10.4a1 1 0 0 0-1 .3zM18.5 8.2l-6.1 4.2a.7.7 0 0 1-.8 0L5.5 8.2V17.5c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V8.2z"/></svg>
+                <div class="contact-fact-body">
+                  <p class="contact-label">E-mail</p>
+                  <p class="contact-value"><a href="mailto:contato@ricoteixeiraadestramento.com.br">contato@ricoteixeiraadestramento.com.br</a></p>
+                </div>
+              </div>
+              <div class="contact-fact">
+                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.5.6 3.6.1.4 0 .7-.3 1L6.6 10.8z"/></svg>
+                <div class="contact-fact-body">
+                  <p class="contact-label">Telefone</p>
+                  <p class="contact-value whatsapp-inline-note" id="whatsapp-number">Desativado até configurar o WhatsApp comercial.</p>
+                </div>
+              </div>
+              <div class="contact-fact">
+                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 7.2 12 4l8 3.2V17l-8 3.2L4 17V7.2zm8 1.1L7 10.2v5.1l5 2 5-2v-5.1L12 8.3z"/></svg>
+                <div class="contact-fact-body">
+                  <p class="contact-label">Região de atendimento</p>
+                  <p id="region-note" class="contact-value">Região de atendimento em confirmação.</p>
+                </div>
+              </div>
+              <div class="contact-fact" id="address-fact" hidden>
+                <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+                <div class="contact-fact-body">
+                  <p class="contact-label">Localização</p>
+                  <div class="contact-place">
+                    <p id="address-note" class="contact-value"></p>
+                    <p id="address-link" class="contact-map-link" hidden></p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div id="map-frame" class="map-frame" hidden></div>
+            <p id="social-note" class="contact-value">Redes sociais em confirmação.</p>
+            <ul id="social-list" class="social-list" hidden></ul>
           </div>
+          <div id="map-frame" class="map-frame" hidden></div>
+          <form id="consulta-form" class="consulta-form" action="#contato" method="post" novalidate>
+            <h2>Envie sua consulta</h2>
+            <p class="consulta-lead">Conte o que você gostaria de melhorar na convivência com seu cão.</p>
+            <p id="consulta-pending" class="consulta-pending">O envio por formulário estará disponível em breve. Por enquanto, fale com o Rico pelo WhatsApp.</p>
+            <p class="hp-field">
+              <label for="consulta-empresa">Empresa</label>
+              <input id="consulta-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+            </p>
+            <div class="field">
+              <label for="consulta-nome">Nome</label>
+              <input id="consulta-nome" name="nome" type="text" autocomplete="name" maxlength="80" required>
+              <p id="consulta-nome-erro" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="consulta-email">E-mail</label>
+              <input id="consulta-email" name="email" type="email" autocomplete="email" maxlength="120" required>
+              <p id="consulta-email-erro" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="consulta-telefone">Telefone <span class="field-optional">(opcional)</span></label>
+              <input id="consulta-telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20">
+              <p id="consulta-telefone-erro" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="consulta-mensagem">Mensagem</label>
+              <textarea id="consulta-mensagem" name="mensagem" rows="5" maxlength="2000" required></textarea>
+              <p id="consulta-mensagem-erro" class="field-error" hidden></p>
+            </div>
+            <button type="submit" class="btn-consulta" disabled>Enviar consulta</button>
+            <p id="consulta-status" class="form-status" role="status" aria-live="polite"></p>
+          </form>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p class="footer-brand">Rico Teixeira Adestramento</p>
-        <p>© <span id="year">2026</span></p>
-        <p class="credit">Desenvolvido por <img src="assets/images/vamelun.png" alt="Vamelun" width="320" height="320" decoding="async"></p>
+        <div class="footer-columns">
+          <section class="footer-col" aria-labelledby="footer-brand-title">
+            <a class="brand footer-brand-link" href="#inicio">
+              <span class="brand-mark">
+                <img src="assets/images/logo-rico-texeira.webp" alt="" width="224" height="224" decoding="async">
+              </span>
+              <span class="brand-text">
+                <span class="brand-name" id="footer-brand-title">Chama o Tio Rico</span>
+              </span>
+            </a>
+            <p class="footer-summary">Rico Teixeira acompanha famílias em Curitiba que querem uma convivência mais tranquila com o cão.</p>
+            <ul id="footer-social" class="footer-social" hidden></ul>
+          </section>
+          <nav class="footer-col footer-nav" aria-label="Links rápidos">
+            <h2 class="footer-heading">Links rápidos</h2>
+            <a href="#inicio">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#perguntas">Perguntas</a>
+            <a href="#contato">Contato</a>
+          </nav>
+          <section class="footer-col footer-contact" aria-labelledby="footer-atendimento">
+            <h2 class="footer-heading" id="footer-atendimento">Atendimento</h2>
+            <p id="footer-phone" class="footer-contact-item">
+              <span class="footer-kicker">WhatsApp</span>
+              <a href="https://wa.me/5541999017892?text=Ol%C3%A1%2C%20Rico!%20Gostaria%20de%20conversar%20sobre%20as%20necessidades%20do%20meu%20c%C3%A3o%20e%20da%20minha%20fam%C3%ADlia." target="_blank" rel="noopener noreferrer">+55 41 99901-7892<span class="sr-only"> (abre em uma nova aba)</span></a>
+            </p>
+            <p id="footer-email" class="footer-contact-item">
+              <span class="footer-kicker">E-mail</span>
+              <a href="mailto:contato@ricoteixeiraadestramento.com.br">contato@ricoteixeiraadestramento.com.br</a>
+            </p>
+            <p id="footer-region" class="footer-contact-item" hidden></p>
+          </section>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-meta">
+            <p class="footer-copy">© <span id="year">2026</span> Rico Teixeira Adestramento. Todos os direitos reservados.</p>
+            <p class="credit">Desenvolvido por <a class="credit-link" href="https://vamelun.com" target="_blank" rel="noopener noreferrer"><span class="credit-logo"><img src="assets/images/vamelun.png" alt="Vamelun" width="320" height="320" decoding="async" loading="lazy"></span><span class="sr-only"> (abre em uma nova aba)</span></a></p>
+          </div>
+          <button type="button" class="footer-cookies" id="cookie-preferences" aria-controls="cookie-panel" aria-expanded="false">Preferências de cookies</button>
+        </div>
       </div>
     </footer>
 

@@ -23,9 +23,10 @@
   }
 
   var choice = readChoice();
-  var toggle = document.createElement("button");
+  var toggle = document.getElementById("cookie-preferences");
   var panel = document.createElement("section");
   var status = document.createElement("p");
+  if (!toggle) return;
 
   function choiceLabel() {
     if (choice === "all") return "Escolha atual: cookies aceitos.";
@@ -50,11 +51,8 @@
     toggle.focus();
   }
 
-  toggle.type = "button";
-  toggle.className = "cookie-toggle";
   toggle.setAttribute("aria-controls", "cookie-panel");
   toggle.setAttribute("aria-expanded", "false");
-  toggle.textContent = "Cookies";
 
   panel.id = "cookie-panel";
   panel.className = "cookie-panel";
@@ -65,10 +63,10 @@
   var title = document.createElement("h2");
   title.id = "cookie-title";
   title.className = "cookie-title";
-  title.textContent = "Cookies";
+  title.textContent = "Preferências de cookies";
 
   var text = document.createElement("p");
-  text.textContent = "Guardamos somente a sua preferência neste navegador. Este site não usa cookies de rastreamento nem de publicidade. Se a medição for ligada no futuro, ela só começa depois do seu aceite.";
+  text.textContent = "Guardamos somente a sua preferência neste navegador. Este site não usa cookies de rastreamento nem de publicidade.";
 
   status.className = "cookie-status";
   status.textContent = choiceLabel();
@@ -120,8 +118,6 @@
   panel.appendChild(actions);
   panel.appendChild(close);
   document.body.appendChild(panel);
-  document.body.appendChild(toggle);
-  document.body.classList.add("has-cookie-toggle");
 
   if (!choice) setOpen(true);
 
