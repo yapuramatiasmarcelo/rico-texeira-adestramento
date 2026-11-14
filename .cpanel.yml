@@ -1,4 +1,20 @@
 ---
 deployment:
   tasks:
-    - /bin/bash deploy/hostgator/preview.sh
+    - |
+      /bin/bash <<'RICO_ADS'
+      set -euo pipefail
+      root="$HOME/public_html"
+      [[ -f "$root/index.html" && ! -e "$root/wp-config.php" && ! -L "$root/assets/js" ]]
+      grep -Fq 'rel="canonical" href="https://ricoteixeiraadestramento.com.br/"' "$root/index.html"
+      umask 077
+      backup="$(mktemp -d "$HOME/rico-ads-rollback.XXXXXXXX")"
+      for file in main.js cookies.js; do
+        cp -p -- "$root/assets/js/$file" "$backup/$file"
+        install -m 0644 -- "assets/js/$file" "$root/assets/js/$file.rico-new"
+      done
+      trap 'for file in main.js cookies.js; do cp -p -- "$backup/$file" "$root/assets/js/$file"; done' ERR
+      mv -f -- "$root/assets/js/cookies.js.rico-new" "$root/assets/js/cookies.js"
+      mv -f -- "$root/assets/js/main.js.rico-new" "$root/assets/js/main.js"
+      trap - ERR
+      RICO_ADS
