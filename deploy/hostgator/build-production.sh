@@ -19,12 +19,19 @@ assets/images/favicon.svg
 assets/images/logo-rico-texeira.webp
 assets/images/rico-hero-celular.webp
 assets/images/rico-hero-escritorio.webp
-assets/images/rico 1.jpg
-assets/images/rico 2.jpg
-assets/images/rico 3.jpg
-assets/images/rico 4.jpg
+assets/images/rico-4-640.webp
+assets/images/rico-4-960.webp
+assets/images/rico-1-240.webp
+assets/images/rico-1-360.webp
+assets/images/rico-2-240.webp
+assets/images/rico-2-300.webp
+assets/images/rico-3-240.webp
+assets/images/rico-3-360.webp
+assets/images/banner-parque-800.webp
+assets/images/banner-parque-1400.webp
 assets/images/banner-parque-barigui.webp
-assets/images/rico-treino-ar-livre.webp
+assets/images/rico-treino-640.webp
+assets/images/rico-treino-1000.webp
 assets/images/depoimento-milena.webp
 assets/images/vamelun.png
 PUBLIC_FILES

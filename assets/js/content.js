@@ -233,6 +233,7 @@
     iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen");
     iframe.setAttribute("allowfullscreen", "");
     iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+    iframe.loading = "lazy";
     frame.appendChild(iframe);
 
     var watch = document.createElement("a");
