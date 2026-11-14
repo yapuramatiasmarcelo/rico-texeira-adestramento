@@ -1,0 +1,96 @@
+name: Deploy HostGator preview
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: hostgator-preview
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Upload and verify preview
+        env:
+          PREVIEW_FTPS_USER: ${{ secrets.PREVIEW_FTPS_USER }}
+          PREVIEW_FTPS_PASSWORD: ${{ secrets.PREVIEW_FTPS_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import ftplib
+          import io
+          import os
+          import re
+          import ssl
+          import urllib.request
+          from pathlib import Path, PurePosixPath
+
+          files = """
+          robots.txt
+          assets/css/styles.css
+          assets/js/config.js
+          assets/js/content.js
+          assets/js/main.js
+          assets/js/cookies.js
+          assets/images/favicon.svg
+          assets/images/logo-rico-texeira.webp
+          assets/images/rico-hero-celular.webp
+          assets/images/rico-hero-escritorio.webp
+          assets/images/rico 1.jpg
+          assets/images/rico 2.jpg
+          assets/images/rico 3.jpg
+          assets/images/rico 4.jpg
+          assets/images/banner-parque-barigui.webp
+          assets/images/rico-treino-ar-livre.webp
+          assets/images/depoimento-milena.webp
+          assets/images/vamelun.png
+          index.html
+          """.strip().splitlines()
+
+          index = Path("index.html").read_bytes()
+          if not re.search(rb'<meta\s+name="robots"\s+content="noindex\b', index, re.I):
+              raise SystemExit("Preview HTML must declare noindex.")
+          if "Disallow: /" not in Path("robots.txt").read_text():
+              raise SystemExit("Review preview robots.txt before deploying.")
+          username = os.environ["PREVIEW_FTPS_USER"]
+          password = os.environ["PREVIEW_FTPS_PASSWORD"]
+          if username.lower() != "github-preview@ricoteixeiraadestramento.com.br" or not password:
+              raise SystemExit("Set the GitHub Secrets for the preview-only FTP account.")
+
+          with ftplib.FTP_TLS(context=ssl.create_default_context(), timeout=25) as ftp:
+              ftp.connect("br1078.hostgator.com.br", 21)
+              ftp.login(username, password)
+              ftp.prot_p()
+              if ftp.pwd() != "/":
+                  raise SystemExit("Unexpected FTPS login directory.")
+              for directory in sorted({str(PurePosixPath(p).parent) for p in files} - {"."}):
+                  try:
+                      ftp.mkd(directory)
+                  except ftplib.error_perm as error:
+                      if not str(error).startswith("550"):
+                          raise
+                      ftp.cwd(directory)
+                      ftp.cwd("/")
+              rules = b'Options -Indexes\n<IfModule mod_headers.c>\n  Header always set X-Robots-Tag "noindex, nofollow"\n</IfModule>\n'
+              for name in [".htaccess", *files]:
+                  data = rules if name == ".htaccess" else Path(name).read_bytes()
+                  temporary = name + ".upload"
+                  ftp.storbinary(f"STOR {temporary}", io.BytesIO(data))
+                  ftp.rename(temporary, name)
+
+          url = "https://preview.ricoteixeiraadestramento.com.br/index.html?revision=" + os.environ["GITHUB_SHA"]
+          request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+          with urllib.request.urlopen(request, timeout=25) as response:
+              if "noindex" not in response.headers.get("X-Robots-Tag", "").lower():
+                  raise SystemExit("Preview is missing its noindex response header.")
+              if response.read() != index:
+                  raise SystemExit("Preview HTML differs from the pushed revision.")
+          PY
