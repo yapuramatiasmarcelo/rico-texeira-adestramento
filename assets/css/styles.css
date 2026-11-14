@@ -636,6 +636,19 @@ main:focus {
   color: var(--color-ink-soft);
 }
 
+.reflections {
+  margin-top: 1.75rem;
+}
+
+.reflections .section-intro {
+  margin-bottom: 0.85rem;
+}
+
+.reflections .steps p {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
 .park-banner {
   background: var(--color-bg);
 }

@@ -45,10 +45,24 @@ window.RICO_CONFIG = {
     biography:
       "Rico Teixeira trabalha com adestramento de cães há mais de 16 anos. Em 2022, conquistou o título de campeão brasileiro por equipe no adestramento esportivo com a equipe Voraus CBPA. Hoje, atende famílias em Curitiba que buscam uma convivência mais tranquila com seus cães.",
     approach:
-      "Tudo começa com uma consultoria comportamental. Rico observa o cão e conversa com os tutores para entender a rotina da casa. A partir dessa avaliação, orienta a família sobre o que pode mudar no dia a dia e como todos podem participar do treinamento. O acompanhamento acontece na residência, onde os tutores podem praticar as orientações nas situações do cotidiano.",
+      "Tudo começa com uma consultoria comportamental. Rico observa o cão e conversa com os responsáveis pelo cão para entender a rotina da casa. A partir dessa avaliação, orienta a família sobre o que pode mudar no dia a dia e como todos podem participar do treinamento. O acompanhamento acontece na residência, onde os responsáveis pelo cão podem praticar as orientações nas situações do cotidiano.",
   },
 
   services: [
+    {
+      id: "preparacao-bh",
+      provisional: false,
+      name: "Preparação para BH (Begleithund)",
+      description: "Treinamento especializado para a certificação internacional BH, que avalia a obediência, o equilíbrio comportamental e a sociabilidade do cão.",
+      image: "",
+    },
+    {
+      id: "treinamento-protecao",
+      provisional: false,
+      name: "Treinamento de Proteção Pessoal e Territorial",
+      description: "Cães preparados para proteger sua família e seu patrimônio, com equilíbrio, obediência e controle.",
+      image: "",
+    },
     {
       id: "consultoria-comportamental",
       provisional: false,
@@ -91,12 +105,6 @@ window.RICO_CONFIG = {
         quote: "Destaca a pontualidade do Rico e o que ele ensinou à família sobre os cães.",
         rating: 5,
         url: "https://share.google/qJtLcplqK72LEWSlR",
-      },
-      {
-        name: "Elizabeth Heiss",
-        quote: "Destaca a comunicação do Rico e como ele a ajudou a entender seu papel no treinamento do Rex.",
-        rating: 5,
-        url: "https://share.google/bv47FnVoKPEbq9nuC",
       },
       {
         name: "Ingrid Celeste Ferreira",
