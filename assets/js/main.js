@@ -84,18 +84,76 @@
     return url + "?text=" + encodeURIComponent(text);
   }
 
+  var ADS_ID = "AW-16569759275";
+  var ADS_SEND_TO = "AW-16569759275/LMRlCJ7i2Z0cEKvsid09";
+  var RICO_WHATSAPP = "wa.me/5541999017892";
+
+  function readCookieChoice() {
+    try {
+      return window.localStorage.getItem("rico-cookie-choice") || "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function installAdsTag() {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== "function") {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+    }
+    if (window.__ricoAdsInstalled) return;
+    window.__ricoAdsInstalled = true;
+    window.gtag("consent", "default", {
+      ad_storage: "granted",
+      ad_user_data: "granted",
+      ad_personalization: "granted",
+      analytics_storage: "denied",
+    });
+    window.gtag("js", new Date());
+    window.gtag("config", ADS_ID);
+    var script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + ADS_ID;
+    document.head.appendChild(script);
+  }
+
+  function applyAdsConsent(choice) {
+    if (choice === "all") {
+      installAdsTag();
+      if (window.__ricoAdsPaused) {
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+        });
+        window.__ricoAdsPaused = false;
+      }
+      return;
+    }
+    if (!window.__ricoAdsInstalled) return;
+    window.gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+    window.__ricoAdsPaused = true;
+  }
+
   /**
-   * Ponto único para identificar cliques no WhatsApp.
-   * GA4 e Google Ads continuam pendentes: não há IDs instalados.
-   * Quando existirem, o disparo entra somente nesta função.
+   * Ponto único dos cliques no WhatsApp.
+   * A conversão do Google Ads sai uma vez por clique, só com o consentimento aceito.
    */
-  function trackWhatsAppClick(source) {
+  function trackWhatsAppClick(source, href) {
     document.dispatchEvent(new CustomEvent("rico:whatsapp-click", {
       detail: {
         source: source || "pagina",
         at: new Date().toISOString(),
       },
     }));
+    if (readCookieChoice() !== "all") return;
+    if (String(href || "").indexOf(RICO_WHATSAPP) === -1) return;
+    installAdsTag();
+    window.gtag("event", "conversion", { send_to: ADS_SEND_TO });
   }
 
   function createWhatsAppLogo() {
@@ -115,7 +173,7 @@
 
   function bindWhatsAppLink(anchor, source) {
     anchor.addEventListener("click", function () {
-      trackWhatsAppClick(source);
+      trackWhatsAppClick(source, anchor.href);
     });
   }
 
@@ -419,6 +477,10 @@
   }
 
   function init() {
+    document.addEventListener("rico:cookie-choice", function (event) {
+      applyAdsConsent(event.detail && event.detail.choice);
+    });
+    applyAdsConsent(readCookieChoice());
     setYear();
     setupMenu();
     if (content.renderAbout) content.renderAbout(config.about || {});

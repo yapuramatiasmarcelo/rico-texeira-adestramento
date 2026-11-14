@@ -68,6 +68,7 @@
   function save(next) {
     choice = next;
     storeChoice(next);
+    document.dispatchEvent(new CustomEvent("rico:cookie-choice", { detail: { choice: next } }));
     setOpen(false);
     toggle.focus();
   }
@@ -92,7 +93,7 @@
   title.textContent = "Preferências de cookies";
 
   var text = document.createElement("p");
-  text.textContent = "Guardamos somente a sua preferência neste navegador. Este site não usa cookies de rastreamento nem de publicidade.";
+  text.textContent = "Guardamos a sua preferência neste navegador. A medição dos anúncios do Google só começa se você aceitar.";
 
   status.className = "cookie-status";
   status.textContent = choiceLabel();
