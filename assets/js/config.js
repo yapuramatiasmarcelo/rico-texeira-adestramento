@@ -16,7 +16,7 @@ window.RICO_CONFIG = {
 
   contact: {
     email: "contato@ricoteixeiraadestramento.com.br",
-    endpoint: "",
+    endpoint: "https://preview.ricoteixeiraadestramento.com.br/api/contact.php",
   },
 
   social: [

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ricoteixeiraadestramento.com.br/sitemap.xml

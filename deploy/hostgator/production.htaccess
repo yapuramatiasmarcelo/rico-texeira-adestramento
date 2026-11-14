@@ -1,0 +1,16 @@
+Options -Indexes
+DirectoryIndex index.html
+RewriteEngine On
+
+RewriteCond %{QUERY_STRING} (^|&)page_id=651(&|$)
+RewriteRule ^(?:index\.(?:html|php))?$ https://ricoteixeiraadestramento.com.br/#sobre [R=301,L,NE,QSD]
+
+RewriteCond %{QUERY_STRING} (^|&)page_id=12(&|$)
+RewriteRule ^(?:index\.(?:html|php))?$ https://ricoteixeiraadestramento.com.br/#contato [R=301,L,NE,QSD]
+
+RewriteCond %{THE_REQUEST} \s/+index\.(?:html|php)(?:[?\s]) [NC]
+RewriteRule ^index\.(?:html|php)$ https://ricoteixeiraadestramento.com.br/ [R=301,L,NE]
+
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^ricoteixeiraadestramento\.com\.br$ [NC]
+RewriteRule ^ https://ricoteixeiraadestramento.com.br%{REQUEST_URI} [R=301,L,NE]

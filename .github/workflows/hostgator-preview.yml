@@ -30,6 +30,7 @@ jobs:
           import os
           import re
           import ssl
+          import urllib.error
           import urllib.request
           from pathlib import Path, PurePosixPath
 
@@ -53,6 +54,11 @@ jobs:
           assets/images/depoimento-milena.webp
           assets/images/vamelun.png
           index.html
+          api/contact.php
+          api/phpmailer/Exception.php
+          api/phpmailer/PHPMailer.php
+          api/phpmailer/SMTP.php
+          api/phpmailer/.htaccess
           """.strip().splitlines()
 
           index = Path("index.html").read_bytes()
@@ -60,6 +66,11 @@ jobs:
               raise SystemExit("Preview HTML must declare noindex.")
           if "Disallow: /" not in Path("robots.txt").read_text():
               raise SystemExit("Review preview robots.txt before deploying.")
+          config = Path("assets/js/config.js").read_text()
+          if "https://preview.ricoteixeiraadestramento.com.br/api/contact.php" not in config:
+              raise SystemExit("Preview config is missing the contact endpoint.")
+          if not Path("api/contact.php").is_file() or not Path("api/phpmailer/PHPMailer.php").is_file():
+              raise SystemExit("Preview contact endpoint is missing its PHP dependencies.")
           username = os.environ["PREVIEW_FTPS_USER"]
           password = os.environ["PREVIEW_FTPS_PASSWORD"]
           if username.lower() != "github-preview@ricoteixeiraadestramento.com.br" or not password:
@@ -71,7 +82,15 @@ jobs:
               ftp.prot_p()
               if ftp.pwd() != "/":
                   raise SystemExit("Unexpected FTPS login directory.")
-              for directory in sorted({str(PurePosixPath(p).parent) for p in files} - {"."}):
+              directories = set()
+              for name in files:
+                  current = PurePosixPath(".")
+                  for part in PurePosixPath(name).parent.parts:
+                      if part in ("", "."):
+                          continue
+                      current = current / part
+                      directories.add(str(current))
+              for directory in sorted(directories, key=lambda item: (item.count("/"), item)):
                   try:
                       ftp.mkd(directory)
                   except ftplib.error_perm as error:
@@ -93,4 +112,16 @@ jobs:
                   raise SystemExit("Preview is missing its noindex response header.")
               if response.read() != index:
                   raise SystemExit("Preview HTML differs from the pushed revision.")
+          contact = urllib.request.Request(
+              "https://preview.ricoteixeiraadestramento.com.br/api/contact.php",
+              method="GET",
+              headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36", "Accept": "application/json"},
+          )
+          try:
+              urllib.request.urlopen(contact, timeout=25)
+              raise SystemExit("Contact endpoint must reject GET.")
+          except urllib.error.HTTPError as error:
+              payload = error.read().replace(b" ", b"")
+              if error.code != 405 or b'"ok":false' not in payload:
+                  raise SystemExit("Contact endpoint did not reject GET with HTTP 405.")
           PY

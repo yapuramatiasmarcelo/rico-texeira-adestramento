@@ -575,10 +575,15 @@
     }
 
     function sendEndpoint() {
+      var host = String(location.hostname || "").replace(/\.+$/, "").toLowerCase();
+      if (host !== "preview.ricoteixeiraadestramento.com.br") return "";
       var endpoint = String(contact.endpoint || "").trim();
       try {
         var url = new URL(endpoint);
-        return url.protocol === "https:" ? url.href : "";
+        if (url.protocol !== "https:") return "";
+        if (url.hostname !== host) return "";
+        if (url.pathname !== "/api/contact.php") return "";
+        return url.origin + url.pathname;
       } catch (error) {
         return "";
       }
@@ -598,10 +603,12 @@
       if (!endpointReady) pending.textContent = previewNotice;
     }
 
+    var sending = false;
     showPreviewState(Boolean(sendEndpoint()));
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
+      if (sending) return;
       var endpoint = sendEndpoint();
       if (!endpoint) {
         showPreviewState(false);
@@ -628,11 +635,19 @@
       body.append("email", data.email);
       body.append("telefone", data.telefone);
       body.append("mensagem", data.mensagem);
+      body.append("empresa", trap ? trap.value : "");
+      sending = true;
       if (button) button.disabled = true;
       setStatus("sending", "Enviando consulta…");
       fetch(endpoint, { method: "POST", body: body, headers: { Accept: "application/json" } })
         .then(function (response) {
-          if (!response.ok) throw new Error("rejected");
+          return response.json().then(function (payload) {
+            if (!response.ok || !payload || payload.ok !== true) throw new Error("rejected");
+          }, function () {
+            throw new Error("rejected");
+          });
+        })
+        .then(function () {
           form.reset();
           Object.keys(fields).forEach(function (key) { setFieldError(fields[key], ""); });
           setStatus("success", "Consulta enviada. Rico vai receber sua mensagem por e-mail.");
@@ -641,7 +656,8 @@
           setStatus("error", "Não foi possível enviar a mensagem. Tente de novo em instantes ou fale com Rico pelo WhatsApp.");
         })
         .then(function () {
-          if (button) button.disabled = false;
+          sending = false;
+          if (button) button.disabled = !sendEndpoint();
         });
     });
   }
