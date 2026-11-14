@@ -1,4 +1,51 @@
 ---
 deployment:
   tasks:
-    - /bin/bash deploy/hostgator/preview.sh
+    - |
+      /bin/bash <<'RICO_RELEASE'
+      set -euo pipefail
+      root="$HOME/public_html"
+      releases="$HOME/rico-production-releases"
+      [[ -d "$root" && ! -L "$root" && -f "$root/wp-config.php" && -f "$root/index.php" ]]
+      umask 077
+      mkdir -p "$releases"
+      release="$(mktemp -d "$releases/release.XXXXXXXX")"
+      bash deploy/hostgator/build-production.sh "$release/static"
+      python3 - "$release/static/index.html" <<'PY'
+      import re
+      import sys
+      from pathlib import Path
+      path = Path(sys.argv[1])
+      page = path.read_text(encoding="utf-8")
+      page, count = re.subn(r'(?s)<form id="consulta-form".*?</form>\s*', "", page)
+      if count != 1 or 'id="contact-fallback"' not in page:
+          raise SystemExit("Review the contact section before activation.")
+      page = page.replace('class="contact-fallback" hidden', 'class="contact-fallback"', 1)
+      path.write_text(page, encoding="utf-8")
+      PY
+      find "$release/static" -type d -exec chmod 0755 {} +
+      mkdir "$release/wordpress"
+      shopt -s dotglob nullglob
+      for file in "$root"/*; do
+        [[ "${file##*/}" == ".well-known" ]] && continue
+        cp -a -- "$file" "$release/wordpress/"
+      done
+      [[ -s "$release/wordpress/wp-config.php" && -s "$release/wordpress/index.php" ]]
+      printf '%s\n' "$release" > "$releases/last-release"
+      restore() {
+        for file in "$root"/*; do
+          [[ "${file##*/}" == ".well-known" ]] && continue
+          mv -- "$file" "$release/failed/"
+        done
+        cp -a -- "$release/wordpress/." "$root/"
+      }
+      mkdir "$release/failed" "$release/original"
+      trap restore ERR
+      for file in "$root"/*; do
+        [[ "${file##*/}" == ".well-known" ]] && continue
+        mv -- "$file" "$release/original/"
+      done
+      cp -a -- "$release/static/." "$root/"
+      chmod 0644 "$root/index.html" "$root/robots.txt" "$root/sitemap.xml" "$root/.htaccess"
+      trap - ERR
+      RICO_RELEASE
