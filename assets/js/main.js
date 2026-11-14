@@ -96,6 +96,11 @@
     }
   }
 
+  function adsHostAllowed() {
+    var host = String(location.hostname || "").replace(/\.+$/, "").toLowerCase();
+    return host === "ricoteixeiraadestramento.com.br";
+  }
+
   function installAdsTag() {
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag !== "function") {
@@ -118,6 +123,7 @@
   }
 
   function applyAdsConsent(choice) {
+    if (!adsHostAllowed()) return;
     if (choice === "all") {
       installAdsTag();
       if (window.__ricoAdsPaused) {
@@ -141,7 +147,7 @@
 
   /**
    * Ponto único dos cliques no WhatsApp.
-   * A conversão do Google Ads sai uma vez por clique, só com o consentimento aceito.
+   * A conversão do Google Ads sai uma vez por clique, só no domínio definitivo e com o consentimento aceito.
    */
   function trackWhatsAppClick(source, href) {
     document.dispatchEvent(new CustomEvent("rico:whatsapp-click", {
@@ -150,6 +156,7 @@
         at: new Date().toISOString(),
       },
     }));
+    if (!adsHostAllowed()) return;
     if (readCookieChoice() !== "all") return;
     if (String(href || "").indexOf(RICO_WHATSAPP) === -1) return;
     installAdsTag();
